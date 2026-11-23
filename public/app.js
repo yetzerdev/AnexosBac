@@ -84,11 +84,13 @@ async function prepararFoto(file) {
   return abrir({ id: nuevoId(), texto: textoDeNombre(file.name), blob });
 }
 
+const nuevoAnexo = () => ({ id: nuevoId(), nombre: docs.length ? `Anexos ${docs.length + 1}` : 'Anexos', pie: PIE, ajuste: 'cover', fotos: [] });
 async function agregar(archivos) {
   if (!archivos.length) return estado('No encontré imágenes en lo que soltaste.', true);
   const grupos = new Map();
   for (const a of archivos) { const k = a.ruta.join('/'); if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(a); }
-  const nuevos = [], fallas = [];
+  const fallas = [];
+  let d = docActivo(), agregadas = 0;
   let n = 0;
   for (const [ruta, lista] of [...grupos].sort((a, b) => orden.compare(a[0], b[0]))) {
     lista.sort((a, b) => orden.compare(a.file.name, b.file.name));
@@ -98,14 +100,15 @@ async function agregar(archivos) {
       try { fotos.push(await prepararFoto(a.file)); } catch { fallas.push(a.file.name); }
     }
     if (!fotos.length) continue;
-    if (!ruta && docActivo()) { docActivo().fotos.push(...fotos); continue; } // fotos sueltas
-    const d = { id: nuevoId(), nombre: ruta.split('/').join(' - ') || 'Anexos', pie: PIE, ajuste: 'cover', fotos };
-    docs.push(d); nuevos.push(d); activo = d.id;
+    // Todas las carpetas siguen llenando el mismo anexo, desde el primer espacio libre.
+    if (!d) { d = nuevoAnexo(); docs.push(d); activo = d.id; }
+    if (!d.fotos.length && ruta) d.nombre = ruta.split('/')[0];
+    d.fotos.push(...fotos); agregadas += fotos.length;
   }
   pintar(); guardar();
-  if ($('auto').checked) for (const d of nuevos) { await bajar(d, 'pdf'); await bajar(d, 'xlsx'); }
+  if ($('auto').checked && agregadas) { await bajar(d, 'pdf'); await bajar(d, 'xlsx'); }
   if (fallas.length) estado(`No se pudieron abrir: ${fallas.join(', ')}. Conviértelas a JPG o PNG.`, true);
-  else estado(`${n} fotos listas.`);
+  else estado(`${agregadas} fotos agregadas a ${d.nombre}.`);
 }
 
 let cola = Promise.resolve();
@@ -229,7 +232,7 @@ function pintar() {
     const li = el('li', x === d ? 'activa' : '');
     const b = el('button', 'abrir', `${x.nombre} (${x.fotos.length})`);
     b.onclick = () => { activo = x.id; $('hojas').scrollTop = 0; pintar(); guardar(); };
-    const q = el('button', 'quitar', '×'); q.setAttribute('aria-label', 'Quitar carpeta ' + x.nombre);
+    const q = el('button', 'quitar', '×'); q.setAttribute('aria-label', 'Quitar anexo ' + x.nombre);
     q.onclick = () => {
       if (!confirm(`¿Quitar "${x.nombre}" y sus textos? Tus fotos originales no se tocan.`)) return;
       x.fotos.forEach(soltar); docs = docs.filter(y => y !== x);
@@ -360,6 +363,7 @@ const exportar = tipo => encolar(async () => {
   for (const d of lista) await bajar(d, tipo);
   if (lista.length) estado((lista.length === 1 ? `Listo: ${lista[0].nombre}.${tipo}` : `Listo: ${lista.length} archivos.`) + (tipo === 'pdf' && !FUENTES.ArialNarrowI ? ' Se usó una fuente parecida: permite el acceso a las fuentes (Chrome o Edge) para Arial Narrow.' : ''));
 });
+$('btnNuevo').onclick = () => encolar(() => { const d = nuevoAnexo(); docs.push(d); activo = d.id; pintar(); guardar(); });
 $('btnPdf').onclick = () => { fuentesListas = cargarFuentes(); exportar('pdf'); };
 $('btnExcel').onclick = () => exportar('xlsx');
 

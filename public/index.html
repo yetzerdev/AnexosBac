@@ -11,7 +11,7 @@
   <h1>Anexos de avalúo</h1>
   <span id="estado" role="status"></span>
   <div class="acciones">
-    <label class="check"><input type="checkbox" id="todas"> Todas las carpetas</label>
+    <label class="check"><input type="checkbox" id="todas"> Todos los anexos</label>
     <button id="btnExcel">Exportar Excel</button>
     <button id="btnPdf" class="primario">Generar PDF</button>
   </div>
@@ -21,12 +21,13 @@
     <label class="zona" id="zona">
       <input id="archivos" type="file" webkitdirectory multiple>
       <strong>Arrastra aquí tus carpetas</strong>
-      <span>o haz clic para elegir una. Cada carpeta arma su propio anexo.</span>
+      <span>o haz clic para elegir una. Las fotos siguen llenando la hoja donde quedó.</span>
     </label>
     <label class="check"><input type="checkbox" id="auto"> Descargar PDF y Excel al soltar la carpeta</label>
-    <h2>Carpetas</h2>
-    <p id="vacio">Aún no hay carpetas. El nombre de cada foto se usa como texto inicial.</p>
+    <h2>Anexos</h2>
+    <p id="vacio">Aún no hay fotos. El nombre de cada foto se usa como texto inicial.</p>
     <ul id="carpetas"></ul>
+    <button id="btnNuevo">Nuevo anexo (otro avalúo)</button>
     <div id="panel" hidden>
       <div class="opciones">
         <label>Nombre del archivo<input id="nombre" type="text"></label>

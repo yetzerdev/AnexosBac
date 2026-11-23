@@ -50,3 +50,4 @@ h2{font-size:14px;margin:18px 0 8px}
 .leyenda{line-height:1.15;font-style:italic;font-family:"Arial Narrow",Arial,sans-serif;text-align:center;white-space:pre}
 .pie{font-style:italic;font-family:Calibri,sans-serif;text-align:center;white-space:pre}
 @media(max-width:800px){body{height:auto}main{display:block}aside{border-right:0}#hojas{padding:16px}.hoja{--u:calc((100vw - 32px)/210)}}
+#btnNuevo{width:100%;margin-top:8px}
