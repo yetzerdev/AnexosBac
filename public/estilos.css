@@ -1,0 +1,52 @@
+:root{--teal:#31869b;--marino:#12304a;--tinta:#1d2b33;--gris:#586970;--linea:#d3dcdf;--fondo:#e6ecee}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;height:100vh;display:flex;flex-direction:column;background:var(--fondo);color:var(--tinta);font:14px/1.4 "Segoe UI",system-ui,sans-serif}
+.barra{display:flex;align-items:center;gap:16px;padding:10px 20px;background:#fff;border-bottom:1px solid var(--linea);flex-wrap:wrap}
+h1{font-size:17px;margin:0}
+#estado{color:var(--gris);flex:1;min-width:0}
+#estado.error{color:#b3261e}
+.acciones{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+button{font:inherit;font-weight:600;padding:8px 14px;border:1px solid var(--teal);border-radius:6px;background:#fff;color:#22687a;cursor:pointer}
+button:hover{background:#eef6f8}
+button.primario{background:#22687a;border-color:#22687a;color:#fff}
+button.primario:hover{background:#18505f}
+button:disabled{opacity:.5;cursor:default}
+:focus-visible,.zona:focus-within{outline:2px solid var(--teal);outline-offset:2px}
+main{flex:1;min-height:0;display:grid;grid-template-columns:360px minmax(0,1fr)}
+aside{background:#fff;border-right:1px solid var(--linea);overflow:auto;padding:16px}
+.zona{position:relative;display:flex;flex-direction:column;align-items:center;padding:22px;border:2px dashed var(--teal);border-radius:8px;background:#f2f8f9;cursor:pointer;text-align:center}
+.zona input{position:absolute;opacity:0;pointer-events:none;width:1px}
+.zona span,#vacio{color:var(--gris)}
+.arrastrando .zona{background:#d5eaef}
+.check{display:flex;gap:7px;align-items:center;margin:10px 0;font-size:13px}
+.acciones .check{margin:0}
+.opciones{display:grid;gap:10px;margin:16px 0}
+.opciones label{display:grid;gap:3px;color:var(--gris);font-size:12.5px}
+input[type=text],select,textarea{font:inherit;width:100%;padding:7px 9px;border:1px solid #b8c5ca;border-radius:5px;background:#fff;color:var(--tinta)}
+textarea{resize:vertical;font-style:italic}
+h2{font-size:14px;margin:18px 0 8px}
+#cuenta{color:var(--gris);font-weight:400}
+#vacio{margin:0}
+#carpetas,#lista{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+#carpetas li{display:grid;grid-template-columns:minmax(0,1fr) 34px;gap:4px}
+#carpetas .abrir{text-align:left;border-color:var(--linea);color:var(--tinta);font-weight:400;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#carpetas .activa .abrir{background:#e1f0f3;border-color:var(--teal);font-weight:600}
+#lista li{display:grid;grid-template-columns:18px 46px minmax(0,1fr) 26px;gap:6px;align-items:center}
+#lista .n{color:var(--gris);text-align:right;font-variant-numeric:tabular-nums}
+#lista img{width:46px;height:32px;object-fit:cover;border:1px solid var(--marino);display:block}
+#lista input{text-transform:uppercase;font:italic 14px "Arial Narrow",Arial,sans-serif}
+.quitar{padding:4px 0;border-color:transparent;color:var(--gris);font-size:17px;line-height:1}
+.quitar:hover{color:#b3261e;background:#fbeceb}
+#hojas{overflow:auto;padding:24px;display:flex;flex-direction:column;align-items:center;gap:24px}
+/* La hoja se mide en mm: --u = píxeles por mm */
+.hoja{--u:min(3.6px,calc((100vw - 430px)/210));position:relative;flex:none;width:calc(210*var(--u));height:calc(297*var(--u));background:#fff;box-shadow:0 2px 14px #12304a33}
+.hoja>*{position:absolute}
+.titulo{background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:Calibri,sans-serif;font-size:calc(4.94*var(--u));text-decoration:underline}
+.hueco{border:1px dashed #c3cfd3;background:#fafcfc}
+.hueco.lleno{border:0;background:#fff;cursor:grab}
+.hueco canvas{width:100%;height:100%;display:block;pointer-events:none}
+.hueco.sobre{outline:3px solid #e08a1e;outline-offset:1px}
+.leyenda{line-height:1.15;font-style:italic;font-family:"Arial Narrow",Arial,sans-serif;text-align:center;white-space:pre}
+.pie{font-style:italic;font-family:Calibri,sans-serif;text-align:center;white-space:pre}
+@media(max-width:800px){body{height:auto}main{display:block}aside{border-right:0}#hojas{padding:16px}.hoja{--u:calc((100vw - 32px)/210)}}

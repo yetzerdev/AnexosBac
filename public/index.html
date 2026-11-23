@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anexos de avalúo</title>
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<header class="barra">
+  <h1>Anexos de avalúo</h1>
+  <span id="estado" role="status"></span>
+  <div class="acciones">
+    <label class="check"><input type="checkbox" id="todas"> Todas las carpetas</label>
+    <button id="btnExcel">Exportar Excel</button>
+    <button id="btnPdf" class="primario">Generar PDF</button>
+  </div>
+</header>
+<main>
+  <aside>
+    <label class="zona" id="zona">
+      <input id="archivos" type="file" webkitdirectory multiple>
+      <strong>Arrastra aquí tus carpetas</strong>
+      <span>o haz clic para elegir una. Cada carpeta arma su propio anexo.</span>
+    </label>
+    <label class="check"><input type="checkbox" id="auto"> Descargar PDF y Excel al soltar la carpeta</label>
+    <h2>Carpetas</h2>
+    <p id="vacio">Aún no hay carpetas. El nombre de cada foto se usa como texto inicial.</p>
+    <ul id="carpetas"></ul>
+    <div id="panel" hidden>
+      <div class="opciones">
+        <label>Nombre del archivo<input id="nombre" type="text"></label>
+        <label>Ajuste de las fotos
+          <select id="ajuste">
+            <option value="cover">Llenar el cuadro (recorta bordes)</option>
+            <option value="contain">Foto completa (sin recortar)</option>
+            <option value="fill">Estirar al cuadro</option>
+          </select>
+        </label>
+        <label>Leyenda al pie<textarea id="pie" rows="4"></textarea></label>
+      </div>
+      <h2>Textos <span id="cuenta"></span></h2>
+      <ol id="lista"></ol>
+    </div>
+    <datalist id="frecuentes"></datalist>
+  </aside>
+  <section id="hojas" aria-label="Vista previa"></section>
+</main>
+<script src="lib/jspdf.umd.min.js"></script>
+<script src="lib/exceljs.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
